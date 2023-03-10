@@ -28,12 +28,12 @@
 		<div id="page-wrapper">
 			<section id="header">
 				<!-- Logo -->
-				<h1><a>Diffusion Models</a></h1>
+				<h1><a>Overview</a></h1>
 				<!-- Nav -->
 				<nav id="nav">
 					<ul>
 						<li><a href="index.html">Home</a></li>
-						<li class="current"><a href="#">Diffusion Models</a></li>
+						<li class="current"><a href="#">VAE</a></li>
 						<li><a href="left-sidebar.html">Left Sidebar</a></li>
 						<li><a href="right-sidebar.html">Right Sidebar</a></li>
 						<li><a href="no-sidebar.html">No Sidebar</a></li>
@@ -76,16 +76,11 @@
 								<!-- Content -->
 						<article class="box post">
 							<header>
-								<h3>Forward diffusion process</h3>
+								<h3>Autoencoder</h3>
 							</header>
-							Suppose we are given a dataset \( \{x_1, x_2, ..., x_N \}\), where each point is drawn
-							independently from an data distribution \( q(x) \). Forward diffusion process is a process in which we add small amout of Gaussian noise 
-                            to the sample in \( T \) steps. The process is controlled by a variance schedule \( {\beta_t \in (0,1) }_{t=1}^T \)
-							<!-- <a href="postImages/generative-overview.png" class="image featured"><img src="images/pic01.jpg" alt="" /></a> -->
-							<!-- <figcaption>Overview of several generative models.(from <a href="https://lilianweng.github.io">lilianweng</a>)</figcaption> -->
-							$$ q(x_t|x_{t-1})=N(x_t;\sqrt{1-\beta_t}x_{t-1}, \beta_tI ) $$
+							Autoencoder is a encoder-decoder designed to reconstruct the original input 
                             <p style="text-align:center;">
-                                <img class="image centered" src="postImages/DDPM.png" width="75%"/>
+                                <img class="image centered" src="postImages/autoencoder-architecture.png" width="75%"/>
                             </p>
 							<section>
 								<header>
@@ -123,23 +118,9 @@
 								\end{aligned}
 								$$
 								As \( q(X_n|X_m) \) is a Gaussian distribution when \( n \le m \)
-
-								The probabilities density function of Gaussian distribution is as follows:
-								$$
-									f(x) = \frac{1}{\omega\sqrt{2\pi}}e^{-\frac{1}{2}(\frac{x-\mu}{\omega})^2}
-								$$
 								$$
 								\begin{aligned}
-									q(X_{t-1}|X_t,X_0) & \propto \exp(\frac{-(X_t-\sqrt{\alpha_t}X_{t-1})^2)}{2(1-\alpha_t)}+\frac{-(X_{t-1}-\sqrt{\hat\alpha_{t-1}}X_0)^2)}{2(1-\hat\alpha_{t-1})}-\frac{-(X_{t}-\sqrt{\hat\alpha_{t}}X_0)^2)}{2(1-\hat\alpha_t)}) \\
-									& =\exp(-\frac{1}{2}(\frac{\alpha_t}{(1-\alpha_t)}+\frac{1}{(1-\hat\alpha_{t-1})})X_{t-1}^2-(\frac{2\sqrt{\alpha_t}X_t}{1-\alpha_t}+\frac{2\sqrt{\hat\alpha_{t-1}}X_0}{1-\hat\alpha_{t-1}})X_{t-1}+C(X_t, X_0))
-								\end{aligned}
-								$$
-								The mean and variance can be parameterized as follows:
-								$$
-								\begin{aligned}
-									\mu_{X_{t-1}}(X_t, X_0) &= (\frac{\sqrt{\alpha_t}X_t}{1-\alpha_t}+\frac{\sqrt{\hat\alpha_{t-1}}X_0}{1-\hat\alpha_{t-1}})/(\frac{\alpha_t}{(1-\alpha_t)}+\frac{1}{(1-\hat\alpha_{t-1})}) \\
-									&= (\frac{\sqrt{\alpha_t}X_t}{1-\alpha_t}+\frac{\sqrt{\hat\alpha_{t-1}}X_0}{1-\hat\alpha_{t-1}})/(\frac{1-\hat\alpha_t}{(1-\alpha_t)(1-\hat\alpha_{t-1})})
-									&= \frac{\sqrt{\alpha_t}X_t}{1-\alpha_t}
+									q(X_{t-1}|X_t,X_0) \propto \exp(\frac{(X_t-\sqrt{\alpha_t}X_{t-1})^2)}{1-\alpha_t}+\frac{(X_{t-1}-\sqrt{\hat\alpha_{t-1}}X_0)^2)}{1-\hat\alpha_{t-1}}-\frac{(X_{t}-\sqrt{\hat\alpha_{t}}X_0)^2)}{1-\hat\alpha_t})
 								\end{aligned}
 								$$
 							</section>
